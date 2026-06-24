@@ -1,176 +1,132 @@
-# SAIL Research Website
+# Security and Artificial Intelligence Lab Website (SAIL) @ VinUniversity
 
-A production-ready static website for **Security and Artificial Intelligence Lab (SAIL)** at VinUniversity.
+This is the website of our academic research group at VinUniversity.
 
-The site is built with Astro, TypeScript, and Tailwind CSS. It is designed as a dark, minimal, editorial research lab website with placeholder visuals that can be replaced later.
+The template is based on [Allan Lab Website](https://github.com/mpa139/allanlab).
 
-## Tech stack
 
-- Astro
-- TypeScript
-- Tailwind CSS v3 via `@astrojs/tailwind`
-- Static output only
-- GitHub Pages deployment through GitHub Actions
-- No backend
-- No CMS
-- No analytics or tracking
 
-## Local development
+To create a base Jekyll application for deploying a static site using Markdown, you can follow this typical directory structure. This layout will help organize your content, configurations, and styles effectively.
 
-Install dependencies:
+### Base Jekyll Structure
 
-```bash
-npm install
+```
+your-jekyll-site/
+├── _config.yml
+├── _posts/
+│   └── 2023-01-01-your-first-post.md
+├── _layouts/
+│   ├── default.html
+│   └── post.html
+├── _includes/
+│   └── header.html
+├── _sass/
+│   └── main.scss
+├── css/
+│   └── main.css
+├── js/
+│   └── main.js
+├── images/
+│   └── your-image.jpg
+├── index.md
+└── about.md
 ```
 
-Run locally:
+### Explanation of Each Component:
 
-```bash
-npm run dev
-```
+1. **`_config.yml`**: This file contains configuration settings for your Jekyll site. You can set your site title, description, URL, and other configurations here.
 
-Build for production:
+   ```yaml
+   title: My Jekyll Site
+   description: A simple Jekyll site to showcase Markdown content.
+   baseurl: ""
+   url: "http://yourdomain.com"
+   ```
 
-```bash
-npm run build
-```
+2. **`_posts/`**: This directory is where you store your blog posts. Each post should be named following the format `YYYY-MM-DD-title.md`. Posts are written in Markdown and can include front matter for metadata.
 
-Preview the production build:
+   Example of a post file (`2023-01-01-your-first-post.md`):
+   ```markdown
+   ---
+   layout: post
+   title: "Your First Post"
+   date: 2023-01-01
+   ---
+   This is your first post. You can write in **Markdown**!
+   ```
 
-```bash
-npm run preview
-```
+3. **`_layouts/`**: Contains layout files that define the structure of your pages. You can have different layouts for posts, pages, etc.
 
-## Editing content
+   Example of a layout file (`default.html`):
+   ```html
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>{{ page.title }}</title>
+       <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}">
+   </head>
+   <body>
+       {% include header.html %}
+       <main>
+           {{ content }}
+       </main>
+   </body>
+   </html>
+   ```
 
-Most content lives in `src/data`.
+4. **`_includes/`**: This folder holds reusable snippets of code that can be included in your layouts or posts. For example, `header.html` could contain the site's navigation.
 
-| File | Purpose |
-| --- | --- |
-| `src/data/site.ts` | Lab name, site URL, address, social placeholders |
-| `src/data/nav.ts` | Main navigation |
-| `src/data/news.ts` | News strip and news archive |
-| `src/data/team.ts` | Professors, students, RAs, alumni, collaborators |
-| `src/data/publications.ts` | Accepted papers and arXiv papers |
-| `src/data/research.ts` | Research pillars |
-| `src/data/projects.ts` | Project cards and project figures |
-| `src/data/gallery.ts` | Gallery panels |
+5. **`_sass/`**: If you’re using Sass for styling, you can put your Sass files here. You can then import them into your main CSS file.
 
-## Replacing placeholder images
+6. **`css/`**: This directory contains compiled CSS files (e.g., `main.css`) that are generated from your Sass files.
 
-The website currently uses geometric placeholder components and placeholder logo files.
+7. **`js/`**: Here you can place JavaScript files for your site’s interactivity.
 
-Recommended folders:
+8. **`images/`**: Store images that you want to use in your posts or pages.
 
-```text
-public/team/
-public/projects/
-public/gallery/
-```
+9. **`index.md`**: This is the homepage of your Jekyll site, which can be written in Markdown. It can include links to your posts or other content.
 
-After adding real images, update the matching data files and components to use the new image paths.
+   ```markdown
+   ---
+   layout: default
+   title: Home
+   ---
+   Welcome to my Jekyll site! Check out my [blog posts]({{ site.baseurl }}/_posts/).
+   ```
 
-## Registration photo uploads
+10. **`about.md`**: A simple page to introduce yourself or your project, written in Markdown.
 
-The private registration form uploads member portraits to Supabase Storage bucket:
+    ```markdown
+    ---
+    layout: default
+    title: About
+    ---
+    This site is created using Jekyll and Markdown.
+    ```
 
-```text
-member-photos
-```
+### Getting Started with Jekyll
+1. **Install Jekyll**: Make sure you have Ruby installed. You can then install Jekyll with the following command:
 
-Run `docs/SUPABASE_MEMBER_PHOTOS_STORAGE.sql` once in the Supabase SQL Editor before testing registration uploads. The form accepts JPG, PNG, and WebP source images up to 12 MB, lets the user crop to a 1:1 portrait, uploads the cropped 800x800 JPG, then stores the public Storage URL in `lab_members.image_url`.
+   ```bash
+   gem install bundler jekyll
+   ```
 
-## Publications rules
+2. **Create a New Jekyll Site**:
 
-The publications page is intentionally simple and does not include a paper search tool.
+   ```bash
+   jekyll new your-jekyll-site
+   cd your-jekyll-site
+   ```
 
-Current rules:
+3. **Build and Serve Your Site**:
 
-- Only include publications that list Prof. Kok-Seng Wong as an author.
-- Put published or accepted papers in `Accepted Papers`.
-- Put unaccepted preprints in `arXiv Papers`.
-- Once an arXiv preprint is accepted, move it to `Accepted Papers` and remove it from the arXiv tab.
-- Do not duplicate a work across both tabs.
+   ```bash
+   bundle exec jekyll serve
+   ```
 
-## GitHub Pages deployment
+This will generate your site at `http://localhost:4000`.
 
-This project is configured for:
-
-```text
-https://www.sail-research.com
-```
-
-The canonical repository is:
-
-```text
-https://github.com/sail-research/sail-research.github.io
-```
-
-Because the site is served from the domain root, `astro.config.mjs` sets:
-
-```js
-site: 'https://www.sail-research.com'
-```
-
-and does **not** set `base`.
-
-To deploy:
-
-1. Push source changes to the `main` branch.
-2. Run `npm run build`.
-3. Go to repository **Settings → Pages**.
-4. Set the source to the `gh-pages` branch.
-5. Publish the generated `dist/` directory to `gh-pages`, keeping `CNAME` in the deployed output.
-
-## Custom domain
-
-The GitHub Pages custom domain is already configured as:
-
-```text
-www.sail-research.com
-```
-
-Current domain requirements:
-
-1. Keep `public/CNAME` set to `www.sail-research.com`.
-2. Keep `base` unset in `astro.config.mjs`.
-3. Keep `public/robots.txt` sitemap URL on the custom domain.
-
-## Using a normal project repository instead
-
-If the repository is not the special `sail-research.github.io` repo, for example:
-
-```text
-https://github.com/sail-research/sail-website
-```
-
-then the GitHub Pages URL will usually be:
-
-```text
-https://sail-research.github.io/sail-website/
-```
-
-In that case, update `astro.config.mjs`:
-
-```js
-site: 'https://sail-research.github.io',
-base: '/sail-website'
-```
-
-You must also make sure internal links work with the configured base. The current version is optimized for `sail-research.github.io` with the `www.sail-research.com` custom domain.
-
-## Data sources
-
-Seed content was checked against public SAIL/VinUniversity pages, arXiv records, and official Astro deployment docs. See `docs/DATA_SOURCES.md` for details.
-
-## Quality checklist
-
-- Home, Team, Publications, Research, Projects, Gallery, News, and 404 pages are included.
-- No Vacancies page or navigation link.
-- No paper search tool.
-- No analytics or tracking.
-- All visuals are placeholders.
-- The Professors section contains only Prof. Kok-Seng Wong.
-- Publications are filtered to entries that include Prof. Kok-Seng Wong.
-- Projects page exists and every project has a placeholder figure.
-- Gallery uses a panel/masonry-style layout.
+### References
+For more detailed guidance, you can check the [official Jekyll documentation](https://jekyllrb.com/docs/) and explore additional resources for customizing your Jekyll site further.

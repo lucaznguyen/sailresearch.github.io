@@ -1,9 +1,8 @@
-node_modules/
-dist/
-.astro/
-archive/
-.astro-preview*.log
+_site
+.sass-cache
+.jekyll-metadata
 .DS_Store
-.env
-.env.*
-!.env.example
+.jekyll-cache
+.firebase
+
+test.ipynb
